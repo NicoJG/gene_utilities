@@ -4,6 +4,10 @@ channels:
 dependencies:
   # Core Python
   - python=3.13
+
+  - mamba  # For fast environment management
+
+  - julia
   
   # Essential scientific computing libraries
   - numpy
@@ -32,5 +36,5 @@ dependencies:
 
   - pip  # Needed for local package installation
   
-  - pip:
+
 
