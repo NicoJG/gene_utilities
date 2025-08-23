@@ -1,0 +1,40 @@
+# the figure size for a LaTeX document should be
+# width: fraction * (textwidth = 5.907 inches) 
+# height: width * (golden ratio = 0.618)
+
+figure.figsize : 5.907, 3.651               # default is full textwidth
+figure.constrained_layout.use : True        # make everything fit perfectly in the figure
+figure.dpi: 200                             # rasterized stuff should have a nice resolution
+savefig.transparent: True
+
+# font sizes should fit into the LaTeX document
+font.size : 11
+legend.fontsize : small
+legend.title_fontsize : medium
+axes.labelsize : medium
+axes.titlesize : medium
+xtick.labelsize : small
+ytick.labelsize : small
+
+# make the font family more similar to the LaTeX font (use Computer Modern)
+font.family : serif
+# font.serif : cmr10, DejaVu Serif    # use Computer Modern Roman for regular text otherwise use Matplotlibs default serif font (DejaVu)
+mathtext.fontset : cm               # use Computer Modern Math for math text
+mathtext.fallback : stix            # use STIX if the symbol does not exist in CM
+axes.formatter.use_mathtext : True  # the minus sign of the axis is not found in cmr10 (suggested option by Matplotlib developers)
+
+# to make it identical to the LaTeX document:
+# A local LaTeX installation is needed, therefore I don't use this way of doing it
+# Plot saving is much slower and it might be more difficult to edit the figures in Inkscape
+# text.usetex : True
+# text.latex.unicode : True         # could be useful
+# text.latex.preamble : \usepackage{lmodern} \usepackage{amsmath} \usepackage{amssymb}   # use the font Latin Modern 
+
+# make it easier to edit text in (for example) Inkscape
+# install the fonts which Matplotlib uses so that Inkscape finds them! (in particular: cmr10, cmmi10 and stix but others might be needed)
+# for me they are under '$HOME/.local/miniconda3/envs/mthesis_guth/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf/'
+# I noticed that fonts are weird and Computer Modern looks really bad when zoomed out a bit.
+# After 2 days of searching, I think it is best to render through latex and if it needs to be edited, then use SVG with text converted to paths
+# pdf.fonttype : 42        # Use TrueType fonts instead of Type 3
+# ps.fonttype : 42
+# svg.fonttype : none     # Text will not be turned into paths when exporting as SVG (best for Inkscape)
