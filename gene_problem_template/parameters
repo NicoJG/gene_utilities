@@ -1,0 +1,115 @@
+&parallelization
+!n_procs: number of mpi processes per corresponding dimension (automatic parallelization if <1)
+n_procs_s =  -1
+n_procs_v =  -1
+n_procs_w =  -1
+n_procs_x =  -1
+n_procs_y =  -1
+n_procs_z =  -1
+
+! uncomment for scans to set number of parallel gene subroutines and processes per subroutine
+!n_parallel_sims =  1
+!n_procs_sim =      1
+/
+
+&box
+kymin =     0.3  ! ky
+
+n_spec =    1	 ! # species
+nx0    =    9    ! # radial grid pts (should be odd) max: 153
+nky0   =    1	 ! # kys (only needed for nonlinear simulations)
+nz0    =   96	 ! # parallel grid pts (set by GIST file) min 16 per maximum -> 96
+nv0    =   16	 ! # vpar grid points max: 48
+nw0    =    8	 ! # mu grid points max: 16
+
+!lx   = ...         ! box length in x (set automatically)
+lv    =     3.00    ! domain in vpar (can be)
+lw    =     9.00    ! domain in mu
+/
+
+&geometry 
+! from GIST file (for stellarators)
+magn_geometry = 'gist'
+geomdir  = '/net/s03/users/nigu/gene-stuff/geometry/gist'
+geomfile = 'gist_wout_kjm_beta-0_s0-0.5_alpha0-0.0_nz0-96_npol-1.dat'
+
+! s-alpha default geometry:
+!magn_geometry = 's_alpha' !geometry model
+!shat     =   0.7960	! r/q dq/dr
+!trpeps   =   0.1800    	! r/R_0
+!major_R  =    1.000    	! R_0 (here = L_ref)
+!q0       =    1.400     ! safety factor q
+
+!rhostar = -1 ! compute rhostar from reference values (if available)
+!sign_Ip_CW = 1 !Clock-wise plasma current (top view)
+!sign_Bt_CW = 1 !Clock-wise toroidal magnetic field orientation
+/
+
+&in_out
+! where to write output files ?
+diagdir = '/net/s03/users/nigu/gene-stuff/problems/template/output'
+
+! start from checkpoint file ?
+read_checkpoint  = F
+
+! how often to write out various files
+istep_field  =   1000
+istep_mom    =   1000
+istep_nrg    =     10
+istep_omega  =     10
+istep_energy =    100
+istep_vsp   =    1000
+istep_schpt =    5000
+/
+
+&general
+nonlinear =   F ! type of operation
+
+calc_dt    = T ! Calculate time step by SLEPC if not set dt_max
+
+!simulation stop criteria
+timelim    =      86000	  ! wallclock limit in sec
+!ntimesteps =      1000000 ! total # timesteps
+!simtimelim =      10000   ! simulation time limit in L_ref/c_ref
+
+beta       =    0.00    ! 8 pi n_ref T_ref/B_ref^2 in cgs units
+debye2     =    0.00
+
+collision_op = 'none'   !'landau','sugama','exact','pitch-angle',...
+coll       =    0.00
+
+zeff       =    1.00	!relevant to collisions in single-ion cases
+
+!hyperdiffusions
+hyp_z =   0.50 !set to -1 for automatic adaptation
+hyp_v =   0.20 !set to zero if collisions are active
+!GyroLES = T ! adaptive x and y hyperdiffusion (more realistic for nonlinear simulations) 
+
+/
+
+&species
+name   = 'ions'
+omn    =    0.0    ! density gradient L_ref/L_n 
+omt    =    3.0    ! temperature gradient L_ref/L_T
+
+mass   =    1.000    ! mass in units of m_ref (usually proton mass)
+temp   =    1.000    ! temperature in units of T_ref
+dens   =    1.000    ! density in units of n_ref
+charge =  1 	     ! charge in elementary charge units
+/
+
+
+!set n_spec = 2 in &box to consider electrons
+&species
+name   = 'electrons'
+omn    =    0.000     ! density gradient L_ref/L_n (consider quasineutrality! so it should be equal to the ion omn)
+omt    =    0.000     ! temperature gradient L_ref/L_T
+
+mass   =    2.7244E-4 ! mass in units of m_ref (usually proton mass, but needs to be adjusted if deuterium)
+temp   =    1.000     ! temperature in units of T_ref
+dens   =    1.000     ! density in units of n_ref
+charge =  -1 	      ! charge in elementary charge units
+/
+
+&units
+/
