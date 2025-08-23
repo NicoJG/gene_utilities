@@ -116,6 +116,9 @@ def run_diagnostic_iv(prob_dir, out_dir, run_id, diag_type, times=[0, 1e4], spec
     proc_out, proc_err = proc_idl.communicate(input='exit')
     os.chdir(wdir)
     if "writing ASCII data file" not in proc_out:
+        if ".ps" in proc_out:
+            print("Note: IDL output indicates a PostScript file was created. If you intended to create ASCII output, please change 'postscript' to 'data: ASCII' in the 'ps_format' variable in cl_diag.pro.")
+            print("Also, ensure 'gui.out.only_last = 1' is set if you want only the last time step.")
         raise RuntimeError(f"IDL call failed for diagnostic '{diag_type}'.\nSTDOUT:\n{proc_out}\nSTDERR:\n{proc_err}")
     if verbose:
         print(f"IDL {diag_type} diagnostic stdout:")
