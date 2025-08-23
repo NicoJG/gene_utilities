@@ -61,7 +61,7 @@ def write_cl_diag(cl_dict=None):
         file.write('---------------------------------------------------\n')
 
 
-def run_diagnostic_iv(prob_dir, out_dir, run_id, diag_type, times=[0, 1e4], species=0, sparse_factor=1, verbose=True):
+def run_diagnostic_iv(prob_dir, out_dir, run_id, diag_type, times=[0, 1e4], species=0, sparse_factor=1, verbose=False):
     """
     Run any diagnostic through the idl command-line tools.
     It is typically helpful to set 'gui.out.only_last = 1' around line 40 in /gene/diagnostics/cl_diag.pro.
@@ -107,6 +107,7 @@ def run_diagnostic_iv(prob_dir, out_dir, run_id, diag_type, times=[0, 1e4], spec
     diag_dir = get_diag_dir()
     wdir = os.getcwd()
     os.chdir(diag_dir)
+    print(f"Running IDL diagnostic '{diag_type}'...", end=" ")
     proc_idl = subprocess.Popen(shlex.split('idl -quiet cl_diag.pro'),
                                 stdin=subprocess.PIPE,
                                 stdout=subprocess.PIPE,
@@ -114,11 +115,14 @@ def run_diagnostic_iv(prob_dir, out_dir, run_id, diag_type, times=[0, 1e4], spec
                                 text=True)
     proc_out, proc_err = proc_idl.communicate(input='exit')
     os.chdir(wdir)
-    if proc_err:
-        raise RuntimeError(f"IDL call failed for diagnostic '{diag_type}'.\nSTDERR:\n{proc_err}")
+    if "writing ASCII data file" not in proc_out:
+        raise RuntimeError(f"IDL call failed for diagnostic '{diag_type}'.\nSTDOUT:\n{proc_out}\nSTDERR:\n{proc_err}")
     if verbose:
         print(f"IDL {diag_type} diagnostic stdout:")
         print(proc_out)
+        print(f"IDL {diag_type} diagnostic stderr:")
+        print(proc_err)
+    print("Done.")
     return proc_out, proc_err
 
 

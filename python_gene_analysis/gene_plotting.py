@@ -83,7 +83,7 @@ def plot_ky_scan(scandirs, show=True, save_path=None, show_labels=False, figsize
     return fig, (ax1, ax2)
 
 
-def plot_z_amplitude_on_geometry(parameters_path, show=True, save_path=None, figsize=(13, 5), run_idl_automatically=False):
+def plot_z_amplitude_on_geometry(parameters_path, show=True, save_path=None, figsize=(13, 5), run_idl_automatically=False, geom_dir=None):
     """
     Plot z-amplitude overlaid on magnetic geometry.
     
@@ -107,7 +107,7 @@ def plot_z_amplitude_on_geometry(parameters_path, show=True, save_path=None, fig
     """
     # Read and prepare all data
     params, (kymin, gamma, omega), df_gist, df_all_vars, df_amplitude = read_z_amplitude_data(
-        parameters_path, run_idl_automatically=run_idl_automatically
+        parameters_path, run_idl_automatically=run_idl_automatically, geom_dir=geom_dir
     )
 
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=figsize, layout='constrained')

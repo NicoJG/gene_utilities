@@ -6,7 +6,7 @@ import re
 from pathlib import Path
 from .gene_plotting import plot_z_amplitude_on_geometry, plot_ballooning_potential
 
-def scan_analysis_widget(scandir_paths):
+def scan_analysis_widget(scandir_paths, run_idl_automatically=False, geom_dir=None):
     """
     Create an interactive widget to select runs and plot diagnostics for scanfiles.
 
@@ -101,9 +101,9 @@ def scan_analysis_widget(scandir_paths):
             print(f"Plotting {selected_folder}/run {selected_run}...")
             try:
                 if diagnostic_checkboxes['phi_z_amplitude'].value:
-                    plot_z_amplitude_on_geometry(all_data[selected_folder][selected_run], show=True, run_idl_automatically=False)
+                    plot_z_amplitude_on_geometry(all_data[selected_folder][selected_run], show=True, run_idl_automatically=run_idl_automatically, geom_dir=geom_dir)
                 if diagnostic_checkboxes['ballooning'].value:
-                    plot_ballooning_potential(all_data[selected_folder][selected_run], show=True)
+                    plot_ballooning_potential(all_data[selected_folder][selected_run], show=True, run_idl_automatically=run_idl_automatically)
                 # Add more diagnostics here as needed
             except Exception as e:
                 print(f"Error plotting {selected_folder}/run {selected_run}: {e}")

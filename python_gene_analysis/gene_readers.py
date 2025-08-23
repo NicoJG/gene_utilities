@@ -160,7 +160,7 @@ def read_ky_scan_data(scandirs):
     return df_scan_log, params
 
 
-def read_z_amplitude_data(parameters_path, run_idl_automatically=False):
+def read_z_amplitude_data(parameters_path, run_idl_automatically=False, geom_dir=None):
     """
     Read and prepare data for z-amplitude plotting on geometry.
     
@@ -193,7 +193,10 @@ def read_z_amplitude_data(parameters_path, run_idl_automatically=False):
     kymin, gamma, omega = np.genfromtxt(parameters_path.parent / f"omega_{runnumber}")
     
     # Read GIST geometry data
-    gist_path = Path(params["geomdir"]) / params["geomfile"]
+    if geom_dir is None:
+        gist_path = Path(params["geomdir"]) / params["geomfile"]
+    else:
+        gist_path = Path(geom_dir) / params["geomfile"]
     df_gist, dict_gist = read_gist_file(gist_path)
     
     # Read zprofile data with case variations
@@ -262,14 +265,11 @@ def read_ballooning_data(parameters_path, run_idl_automatically=False):
     else:
         # Try to automatically generate if requested
         if run_idl_automatically:
-            gene_diag_dir = "/home/IPP-HGW/nigu/gene-stuff/gene/diagnostics"
-            
             # Create output directory if it doesn't exist
             output_dir = parameters_path.parent / "idl_output"
             output_dir.mkdir(exist_ok=True)
             
-            cl_diag.ball_iv(diag_dir=gene_diag_dir, 
-                           prob_dir=str(parameters_path.parent), 
+            cl_diag.ball_iv(prob_dir=str(parameters_path.parent), 
                            out_dir=str(output_dir),
                            run_id=runnumber)
             
@@ -436,7 +436,6 @@ def read_zprofile(filepath, run_idl_automatically=False, parameters_path=None):
         if parameters_path is None:
             raise ValueError("parameters_path must be provided when run_idl_automatically=True")
             
-        gene_diag_dir = "/home/IPP-HGW/nigu/gene-stuff/gene/diagnostics"
         parameters_path = Path(parameters_path)
         run_id = parameters_path.name.replace("parameters_", "")
         
@@ -444,8 +443,7 @@ def read_zprofile(filepath, run_idl_automatically=False, parameters_path=None):
         output_dir = parameters_path.parent / "idl_output"
         output_dir.mkdir(exist_ok=True)
         
-        cl_diag.zprofile_iv(diag_dir=gene_diag_dir, 
-                           prob_dir=str(parameters_path.parent), 
+        cl_diag.zprofile_iv(prob_dir=str(parameters_path.parent), 
                            out_dir=str(output_dir),
                            run_id=run_id)
     
