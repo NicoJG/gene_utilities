@@ -1,0 +1,36 @@
+name: toolbox
+channels:
+  - conda-forge
+dependencies:
+  # Core Python
+  - python=3.13
+  
+  # Essential scientific computing libraries
+  - numpy
+  - scipy
+  - pandas
+  - matplotlib
+  - sympy
+  - uncertainties # numpy-esque package for error propagation
+
+  # optional packages for pandas
+  - h5py
+  - pytables
+
+  # Interactive python
+  - jupyter 
+  - ipython 
+  - ipywidgets 
+  - ipykernel
+  
+  # Packages potentially needed for GENE diagnostics
+  - cffi  # For Foreign Function Interface (found in diag_visgene3d.py and diag_synthetic.py)
+  - pytest  # For running unit tests
+  - pylint  # Code quality (mentioned in gene_gui.py)
+  - setuptools<81  # Pin setuptools to avoid pkg_resources deprecation warnings
+  
+
+  - pip  # Needed for local package installation
+  
+  - pip:
+
