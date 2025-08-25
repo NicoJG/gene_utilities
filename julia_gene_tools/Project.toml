@@ -1,0 +1,22 @@
+name = "julia_gene_tools"
+uuid = "06bc7425-7502-4f00-83b8-190a6b110584"
+authors = ["Nico Guth <nico.guth@ipp.mpg.de>"]
+version = "0.1.0"
+
+[deps]
+GLMakie = "e9467ef8-e4e7-5192-8a1a-b1aee30e663a"
+GeneTools = "34794f4d-a057-4455-8bb4-5e6606ed443e"
+IJulia = "7073ff75-c697-5162-941a-fcdaad2a7d2a"
+NetCDF = "30363a11-5582-574a-97bb-aa9a979735b9"
+PlasmaEquilibriumToolkit = "57ef8d28-8191-49ce-8cf8-17f9379aac88"
+PlasmaViz = "8d9dfc60-0866-4ae7-8ff1-b01a90e51075"
+VMEC = "2b46c670-0004-47b5-bf0a-1741584931e9"
+
+[compat]
+GLMakie = "0.10.18"
+GeneTools = "0.9.0"
+IJulia = "1.30.0"
+NetCDF = "0.12.2"
+PlasmaEquilibriumToolkit = "0.7.6"
+PlasmaViz = "0.7.2"
+VMEC = "0.8.2"
