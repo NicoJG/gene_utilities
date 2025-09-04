@@ -10,6 +10,8 @@
 # If a directory is provided, it will recursively search for all files
 # starting with "parameters" and apply the endianness change to them.
 
+# Test git submodule
+
 # Check if at least one argument is provided
 if [ $# -eq 0 ]; then
     echo "Usage: $0 <filename1|directory> [filename2] [...]"
