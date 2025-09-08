@@ -84,14 +84,6 @@ def scan_analysis_widget(scandir_paths, run_idl_automatically=False, geom_dir=No
 
     output = widgets.Output()
     
-    def update_run_options(change):
-        """Update run dropdown when folder selection changes"""
-        selected_folder = change['new']
-        available_runs = list(all_data[selected_folder].keys())
-        run_dropdown.options = available_runs
-        if available_runs:
-            run_dropdown.value = available_runs[0]
-    
     def plot_selected_run(change=None):
         """Callback for run dropdown or diagnostic selection changes"""
         with output:
@@ -107,6 +99,16 @@ def scan_analysis_widget(scandir_paths, run_idl_automatically=False, geom_dir=No
                 # Add more diagnostics here as needed
             except Exception as e:
                 print(f"Error plotting {selected_folder}/run {selected_run}: {e}")
+    
+    def update_run_options(change):
+        """Update run dropdown when folder selection changes"""
+        selected_folder = change['new']
+        available_runs = list(all_data[selected_folder].keys())
+        run_dropdown.options = available_runs
+        if available_runs:
+            if run_dropdown.value not in available_runs:
+                run_dropdown.value = available_runs[0]
+        plot_selected_run()
     
     # Setup observers
     folder_dropdown.observe(update_run_options, names='value')

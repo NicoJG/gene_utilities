@@ -192,25 +192,41 @@ def plot_ballooning_potential(parameters_path, show=True, save_path=None, figsiz
     )
     
     # Create the plot
-    fig, ax = plt.subplots(1, 1, figsize=figsize, layout='constrained')
-    
-    ax.plot(df_ball['theta'], df_ball['Re_phi'], color='tab:red', 
-            linewidth=1.5, label=r'$\Re(\phi)$')
-    ax.plot(df_ball['theta'], df_ball['Im_phi'], color='tab:blue', 
-            linewidth=1.5, label=r'$\Im(\phi)$')
-    ax.plot(df_ball['theta'], df_ball['abs_phi'], 'k-', 
+    fig, axs = plt.subplots(2, 1, figsize=figsize, layout='constrained')
+
+    plt.sca(axs[0])
+
+    plt.plot(df_ball['theta'], df_ball['Re_phi'], color='tab:red', 
+                linewidth=1.5, label=r'$\Re(\phi)$')
+    plt.plot(df_ball['theta'], df_ball['Im_phi'], color='tab:blue', 
+                linewidth=1.5, label=r'$\Im(\phi)$')
+    plt.plot(df_ball['theta'], df_ball['abs_phi'], 'k-', 
             linewidth=2, label=r'$|\phi|$')
-    
-    ax.set_xlabel(r'$\theta / \pi$')
-    ax.set_ylabel(r'$\phi$')
-    ax.set_title(f'Ballooning space potential $\\phi$ for\n$k_y = {kymin}$ , $\\gamma = {gamma}$ , $\\omega = {omega}$')
-    ax.legend()
-    ax.grid(True, alpha=0.3)
-    
+
+    plt.xlabel(r'$\theta / \pi$')
+    plt.ylabel(r'$\phi$')
+    plt.title(f'Ballooning space potential $\\phi$ for\n$k_y = {kymin}$ , $\\gamma = {gamma}$ , $\\omega = {omega}$')
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+
+    plt.sca(axs[1])
+
+    plt.plot(df_ball['theta'], np.abs(df_ball['Re_phi']), color='tab:red', 
+                linewidth=1.5, label=r'$\Re(\phi)$')
+    plt.plot(df_ball['theta'], np.abs(df_ball['Im_phi']), color='tab:blue', 
+                linewidth=1.5, label=r'$\Im(\phi)$')
+    plt.plot(df_ball['theta'], np.abs(df_ball['abs_phi']), 'k-', 
+            linewidth=2, label=r'$|\phi|$')
+
+    plt.xlabel(r'$\theta / \pi$')
+    plt.ylabel(r'$\phi$')
+    plt.yscale("log")
+
+
     if save_path:
         Path(save_path).parent.mkdir(parents=True, exist_ok=True)
         plt.savefig(save_path)
     if show:
         plt.show()
         
-    return fig, ax
+    return fig, axs
